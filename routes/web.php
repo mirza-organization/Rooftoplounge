@@ -17,22 +17,15 @@ use Illuminate\Support\Facades\Route;
 // Route::get('register', [RegisteredUserController::class, 'create'])
 // ->name('register');
 
-// Route::get('emp/dashboard', function () {
-//     return view('employee/index');
-// })->middleware(['auth'])->name('emp.dashboard');
-
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('admin')->group(function () {
+    Route::middleware('admin_guard')->prefix('admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index']);
     });
 
-    Route::prefix('emp')->group(function () {
+    Route::middleware('emp_guard')->prefix('emp')->group(function () {
         Route::get('/dashboard', [EmployeeController::class, 'index']);
     });
-
 });
 
-require __DIR__.'/auth.php';
-
-
+require __DIR__ . '/auth.php';

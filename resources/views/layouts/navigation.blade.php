@@ -6,8 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="#">
-                        0
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
+                        <img src="{{ asset('images/logo.jpg') }}" alt="rooftop lounge logo" class="dashboard_logo">
                     </a>
                 </div>
 
