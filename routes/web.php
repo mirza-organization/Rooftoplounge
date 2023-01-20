@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('emp_guard')->prefix('emp')->group(function () {
         Route::get('/dashboard', [EmployeeController::class, 'index']);
     });
+
+    Route::resource('/products', ProductController::class);
 });
 
 require __DIR__ . '/auth.php';
