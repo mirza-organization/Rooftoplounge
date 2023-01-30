@@ -21,7 +21,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
 
     Route::middleware('admin_guard')->prefix('admin')->group(function () {
-        Route::get('/dashboard', [AdminController::class, 'index']);
+        Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
+        Route::get('/employees', [AdminController::class, 'employees'])->name('admin.employees');
+        Route::get('/menu-item', [AdminController::class, 'menu_items'])->name('admin.menu-items');
+        Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
+        Route::post('/update-admin', [AdminController::class, 'update_admin'])->name('admin.update');
+        Route::post('/update-password', [AdminController::class, 'update_admin_password'])->name('admin.update_password');
     });
 
     Route::middleware('emp_guard')->prefix('emp')->group(function () {
