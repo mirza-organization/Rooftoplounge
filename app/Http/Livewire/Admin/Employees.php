@@ -110,7 +110,7 @@ class Employees extends Component
 
     public function render()
     {
-        $employees = User::where('role_id', '=', '2')->paginate(10);
+        $employees = User::where('role_id', '=', 'emp')->orderBy('created_at','DESC')->paginate(10);
         return view('livewire.admin.employees', ['employees' => $employees]);
     }
 }

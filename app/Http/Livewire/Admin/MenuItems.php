@@ -2,24 +2,25 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class MenuItems extends Component
 {
-    use WithPagination;
+    use WithFileUploads,WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public $name, $email, $password, $employee_id;
+    public $name, $price,$previous_media,$media, $menu_item_id;
 
     protected function rules()
     {
         return [
             'name' => 'required|max:30',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8'
+            'price' => 'required|numeric|between:0,10000.00',
+            'media' => 'required|mimes:jpeg,png,jpg'
         ];
     }
 
@@ -29,19 +30,19 @@ class MenuItems extends Component
         $this->validateOnly($fields);
     }
 
-    public function saveEmployee()
+    public function saveMenuItem()
     {
         $this->validate();
-        $insert = User::create([
+        $insert = Product::create([
             'name' => $this->name,
-            'email' => $this->email,
-            'password' => Hash::make($this->password),
-            'role_id' => '2',
+            'price' => $this->price,
+            'user_id' => Auth::user()->id
         ]);
+        $insert->addMedia($this->media->getRealPath())->usingFileName($this->media->getFilename())->toMediaCollection();
         $this->resetInputs();
         $this->dispatchBrowserEvent('close-modal', ['id' => 'basicModal']);
         if ($insert) {
-            session()->flash('success', 'Employee Added.');
+            session()->flash('success', 'Menu Item Added.');
         } else {
             session()->flash('error', 'Try Again.');
         }
@@ -50,8 +51,9 @@ class MenuItems extends Component
     public function resetInputs()
     {
         $this->name = '';
-        $this->email = '';
-        $this->password = '';
+        $this->price = '';
+        $this->media = '';
+        $this->previous_media = '';
     }
 
     public function closeModel()
@@ -59,50 +61,53 @@ class MenuItems extends Component
         $this->resetInputs();
     }
 
-    public function editEmployee($id)
+    public function editMenuItem($id)
     {
-        $employee = User::where('id', '=', $id)->first();
-        if ($employee) {
-            $this->employee_id = $employee->id;
-            $this->name = $employee->name;
-            $this->email = $employee->email;
+        $menu_item = Product::where('id', '=', $id)->first();
+        if ($menu_item) {
+            $this->menu_item_id = $menu_item->id;
+            $this->name = $menu_item->name;
+            $this->price = $menu_item->price;
+            $this->previous_media = $menu_item->getFirstMediaUrl();
         } else {
-            return redirect()->to(route('admin.employees'))->with('error', 'Record Not Found.');
+            return redirect()->to(route('admin.menu-items'))->with('error', 'Record Not Found.');
         }
     }
 
-    public function updateEmployee()
+    public function updateMenuItem()
     {
-        $update = User::where('id', '=', $this->employee_id)->update([
+        $update = Product::where('id', '=', $this->menu_item_id)->update([
             'name' => $this->name,
-            'email' => $this->email,
+            'price' => $this->price,
         ]);
-        if (!is_null($this->password)) {
-            User::where('id', '=', $this->employee_id)->update([
-                'password' => Hash::make($this->password)
-            ]);
+        if (!is_null($this->media)&&!empty($this->media)) {
+            $update_media=Product::where('id', '=', $this->menu_item_id)->first();
+            $update_media->clearMediaCollection();
+            $update_media->addMedia($this->media->getRealPath())->usingFileName($this->media->getFilename())->toMediaCollection();
         }
         $this->resetInputs();
         $this->dispatchBrowserEvent('close-modal', ['id' => 'updateModal']);
         if ($update) {
-            session()->flash('success', 'Employee Updated.');
+            session()->flash('success', 'Menu Item Updated.');
         } else {
             session()->flash('error', 'Try Again.');
         }
     }
 
-    public function deleteEmployee($id)
+    public function deleteMenuItem($id)
     {
-        $this->employee_id = $id;
+        $this->menu_item_id = $id;
     }
 
-    public function destroyEmployee()
+    public function destroyMenuItem()
     {
-        $delete = User::find($this->employee_id)->delete();
+        $update_media=Product::where('id', '=', $this->menu_item_id)->first();
+        $update_media->clearMediaCollection();
+        $delete = Product::find($this->menu_item_id)->delete();
         $this->resetInputs();
         $this->dispatchBrowserEvent('close-modal', ['id' => 'deleteModal']);
         if ($delete) {
-            session()->flash('success', 'Employee Deleted.');
+            session()->flash('success', 'Menu Item Deleted.');
         } else {
             session()->flash('error', 'Try Again.');
         }
@@ -110,7 +115,7 @@ class MenuItems extends Component
 
     public function render()
     {
-        $employees = User::where('role_id', '=', '2')->paginate(10);
-        return view('livewire.admin.menu-items',['employees' => $employees]);
+        $menu_items = Product::orderBy('created_at','DESC')->paginate(10);
+        return view('livewire.admin.menu-items',['menu_items' => $menu_items]);
     }
 }

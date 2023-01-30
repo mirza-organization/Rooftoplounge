@@ -30,11 +30,11 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="basicModalLabel">Add Employee</h5>
+                    <h5 class="modal-title" id="basicModalLabel">Add Menu Item</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         wire:click="closeModel"></button>
                 </div>
-                <form wire:submit.prevent="saveEmployee">
+                <form wire:submit.prevent="saveMenuItem">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
@@ -50,29 +50,26 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" id="email" wire:model="email" class="form-control"
-                                    placeholder="Email" />
+                                <label for="price" class="form-label">Price</label>
+                                <input type="text" id="price" wire:model="price" class="form-control"
+                                    placeholder="Price" />
                                 <small class="text-danger">
-                                    @error('email')
+                                    @error('price')
                                         {{ $message }}
                                     @enderror
                                 </small>
                             </div>
                         </div>
-                        <div class="mb-3 form-password-toggle">
-                            <label class="form-label" for="password">Password</label>
-                            <div class="input-group input-group-merge">
-                                <input type="password" id="password" class="form-control" wire:model="password"
-                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                    aria-describedby="password" required />
-                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="media" class="form-label">Media</label>
+                                <input class="form-control" type="file" wire:model="media">                                
+                                <small class="text-danger">
+                                    @error('media')
+                                        {{ $message }}
+                                    @enderror
+                                </small>
                             </div>
-                            <small class="text-danger">
-                                @error('password')
-                                    {{ $message }}
-                                @enderror
-                            </small>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -91,11 +88,11 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="updateModalLabel">Edit Employee</h5>
+                    <h5 class="modal-title" id="updateModalLabel">Edit Menu Item</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         wire:click="closeModel"></button>
                 </div>
-                <form wire:submit.prevent="updateEmployee">
+                <form wire:submit.prevent="updateMenuItem">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
@@ -111,23 +108,26 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" id="email" wire:model="email" class="form-control"
+                                <label for="price" class="form-label">Price</label>
+                                <input type="text" id="price" wire:model="price" class="form-control"
                                     placeholder="Email" />
                                 <small class="text-danger">
-                                    @error('email')
+                                    @error('price')
                                         {{ $message }}
                                     @enderror
                                 </small>
                             </div>
                         </div>
                         <div class="row">
+                            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                <img src="{{ $previous_media }}" class="d-block rounded" height="100"
+                                    width="100" id="uploadedAvatar" />
+                            </div>
                             <div class="col mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" id="password" wire:model="password" class="form-control"
-                                    placeholder="Password" />
+                                <label for="media" class="form-label">Media</label>
+                                <input class="form-control" type="file" wire:model="media">                                
                                 <small class="text-danger">
-                                    @error('password')
+                                    @error('media')
                                         {{ $message }}
                                     @enderror
                                 </small>
@@ -150,11 +150,11 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Employee</h5>
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Menu Item</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         wire:click="closeModel"></button>
                 </div>
-                <form wire:submit.prevent="destroyEmployee">
+                <form wire:submit.prevent="destroyMenuItem">
                     <div class="modal-body">
                         <h4>Are you sure you want to delete this data?</h4>
                     </div>
@@ -184,24 +184,28 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Email</th>
-                        <th>Joining</th>
+                        <th>Price</th>
+                        <th>Image</th>
+                        <th>Added By</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    @forelse ($employees as $employee)
+                    @forelse ($menu_items as $menu_item)
                         <tr>
-                            <td>{{ $employee->id }}</td>
-                            <td>{{ $employee->name }}</td>
-                            <td>{{ $employee->email }}</td>
-                            <td>{{ $employee->created_at->diffForHumans() }}</td>
+                            <td>{{ $menu_item->id }}</td>
+                            <td>{{ $menu_item->name }}</td>
+                            <td>RS {{ floatval($menu_item->price) }}</td>
+                            <td>
+                                <img src="{{ $menu_item->getFirstMediaUrl() }}" class="d-block rounded" height="100" alt="{{ $menu_item->name }}">
+                            </td>
+                            <td>{{ $menu_item->inserting_person->name }}</td>
                             <td>
                                 <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                                    data-bs-target="#updateModal" wire:click="editEmployee({{ $employee->id }})"><i
+                                    data-bs-target="#updateModal" wire:click="editMenuItem({{ $menu_item->id }})"><i
                                         class='bx bxs-edit-alt'></i></button>
                                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal" wire:click="deleteEmployee({{ $employee->id }})"><i
+                                    data-bs-target="#deleteModal" wire:click="deleteMenuItem({{ $menu_item->id }})"><i
                                         class='bx bxs-trash'></i></button>
                             </td>
                         </tr>
@@ -214,7 +218,7 @@
             </table>
         </div>
         <div class="row">
-            {{ $employees->links() }}
+            {{ $menu_items->links() }}
         </div>
     </div>
     <!--/ Basic Bootstrap Table -->

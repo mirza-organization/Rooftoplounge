@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route::get('register', [RegisteredUserController::class, 'create'])
-// ->name('register');
-
 Route::middleware('auth')->group(function () {
 
     Route::middleware('admin_guard')->prefix('admin')->group(function () {
