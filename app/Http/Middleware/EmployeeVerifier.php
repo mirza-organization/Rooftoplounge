@@ -17,7 +17,7 @@ class EmployeeVerifier
      */
     public function handle(Request $request, Closure $next)
     {   /* 2 == Employee */
-        if(Auth::user()->role_id != 2) abort(404);
+        if(Auth::user()->role_id != 'emp') abort(404);
         return $next($request);
     }
 }

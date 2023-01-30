@@ -36,7 +36,7 @@ class Employees extends Component
             'name' => $this->name,
             'email' => $this->email,
             'password' => Hash::make($this->password),
-            'role_id' => '2',
+            'role_id' => 'emp',
         ]);
         $this->resetInputs();
         $this->dispatchBrowserEvent('close-modal', ['id' => 'basicModal']);
