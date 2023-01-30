@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,22 +18,22 @@ use Illuminate\Support\Facades\Route;
 // Route::get('register', [RegisteredUserController::class, 'create'])
 // ->name('register');
 
-// Route::get('emp/dashboard', function () {
-//     return view('employee/index');
-// })->middleware(['auth'])->name('emp.dashboard');
-
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('admin')->group(function () {
-        Route::get('/dashboard', [AdminController::class, 'index']);
+    Route::middleware('admin_guard')->prefix('admin')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
+        Route::get('/employees', [AdminController::class, 'employees'])->name('admin.employees');
+        Route::get('/menu-item', [AdminController::class, 'menu_items'])->name('admin.menu-items');
+        Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
+        Route::post('/update-admin', [AdminController::class, 'update_admin'])->name('admin.update');
+        Route::post('/update-password', [AdminController::class, 'update_admin_password'])->name('admin.update_password');
     });
 
-    Route::prefix('emp')->group(function () {
+    Route::middleware('emp_guard')->prefix('emp')->group(function () {
         Route::get('/dashboard', [EmployeeController::class, 'index']);
     });
 
+    Route::resource('/products', ProductController::class);
 });
 
-require __DIR__.'/auth.php';
-
-
+require __DIR__ . '/auth.php';
