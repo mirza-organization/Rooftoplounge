@@ -39,7 +39,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" id="name" wire:model="name" class="form-control" placeholder="Name"/>
+                                <input type="text" id="name" wire:model="name" class="form-control"
+                                    placeholder="Name" />
                                 <small class="text-danger">
                                     @error('name')
                                         {{ $message }}
@@ -50,7 +51,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" id="email" wire:model="email" class="form-control" placeholder="Email"/>
+                                <input type="email" id="email" wire:model="email" class="form-control"
+                                    placeholder="Email" />
                                 <small class="text-danger">
                                     @error('email')
                                         {{ $message }}
@@ -98,7 +100,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" id="name" wire:model="name" class="form-control" placeholder="Name"/>
+                                <input type="text" id="name" wire:model="name" class="form-control"
+                                    placeholder="Name" />
                                 <small class="text-danger">
                                     @error('name')
                                         {{ $message }}
@@ -109,7 +112,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" id="email" wire:model="email" class="form-control" placeholder="Email"/>
+                                <input type="email" id="email" wire:model="email" class="form-control"
+                                    placeholder="Email" />
                                 <small class="text-danger">
                                     @error('email')
                                         {{ $message }}
@@ -120,7 +124,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" id="password" wire:model="password" class="form-control" placeholder="Password"/>
+                                <input type="password" id="password" wire:model="password" class="form-control"
+                                    placeholder="Password" />
                                 <small class="text-danger">
                                     @error('password')
                                         {{ $message }}
@@ -164,55 +169,53 @@
             </div>
         </div>
     </div>
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="d-flex justify-content-between">
-            <h4 class="fw-bold py-3 mb-4">Employees</h4>
-            <button type="button" class="btn btn-primary py-3 mb-4" data-bs-toggle="modal"
-                data-bs-target="#basicModal">
-                <i class='bx bx-plus-medical'></i>
-            </button>
-        </div>
-        <!-- Basic Bootstrap Table -->
-        <div class="card">
-            <div class="table-responsive text-nowrap">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Joining</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                        @forelse ($employees as $employee)
-                            <tr>
-                                <td>{{ $employee->id }}</td>
-                                <td>{{ $employee->name }}</td>
-                                <td>{{ $employee->email }}</td>
-                                <td>{{ $employee->created_at->diffForHumans() }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                                        data-bs-target="#updateModal"
-                                        wire:click="editEmployee({{ $employee->id }})"><i class='bx bxs-edit-alt'></i></button>
-                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal"
-                                        wire:click="deleteEmployee({{ $employee->id }})"><i class='bx bxs-trash'></i></button>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr class="alert alert-warning alert-dismissible text-center rounded-bottom">
-                                <td colspan="5" class="text-center">No Record Found.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            <div class="row">
-                {{ $employees->links() }}
-            </div>
-        </div>
-        <!--/ Basic Bootstrap Table -->
+    <div class="d-flex justify-content-between">
+        <h4 class="fw-bold py-3 mb-4">Employees</h4>
+        <button type="button" class="btn btn-primary py-3 mb-4" data-bs-toggle="modal"
+            data-bs-target="#basicModal">
+            <i class='bx bx-plus-medical'></i>
+        </button>
     </div>
+    <!-- Basic Bootstrap Table -->
+    <div class="card">
+        <div class="table-responsive text-nowrap">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Joining</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @forelse ($employees as $employee)
+                        <tr>
+                            <td>{{ $employee->id }}</td>
+                            <td>{{ $employee->name }}</td>
+                            <td>{{ $employee->email }}</td>
+                            <td>{{ $employee->created_at->diffForHumans() }}</td>
+                            <td>
+                                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
+                                    data-bs-target="#updateModal" wire:click="editEmployee({{ $employee->id }})"><i
+                                        class='bx bxs-edit-alt'></i></button>
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal" wire:click="deleteEmployee({{ $employee->id }})"><i
+                                        class='bx bxs-trash'></i></button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr class="alert alert-warning alert-dismissible text-center rounded-bottom">
+                            <td colspan="5" class="text-center">No Record Found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            {{ $employees->links() }}
+        </div>
+    </div>
+    <!--/ Basic Bootstrap Table -->
 </div>
