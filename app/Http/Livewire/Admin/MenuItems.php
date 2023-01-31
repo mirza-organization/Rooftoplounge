@@ -70,7 +70,7 @@ class MenuItems extends Component
             $this->price = $menu_item->price;
             $this->previous_media = $menu_item->getFirstMediaUrl();
         } else {
-            return redirect()->to(route('admin.menu-items'))->with('error', 'Record Not Found.');
+            return redirect()->to(route('menu-items.index'))->with('error', 'Record Not Found.');
         }
     }
 
