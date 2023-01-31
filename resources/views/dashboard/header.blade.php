@@ -80,7 +80,7 @@
                     </li>
 
                     <li class="menu-item @if ($active == 'menu') active @endif">
-                        <a href="{{ route('admin.menu-items') }}" class="menu-link">
+                        <a href="{{ route('menu-item.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-food-menu"></i>
                             <div data-i18n="Analytics">Menu Items</div>
                         </a>

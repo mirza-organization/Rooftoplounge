@@ -63,7 +63,7 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="media" class="form-label">Media</label>
-                                <input class="form-control" type="file" wire:model="media">                                
+                                <input class="form-control" type="file" wire:model="media">
                                 <small class="text-danger">
                                     @error('media')
                                         {{ $message }}
@@ -125,7 +125,7 @@
                             </div>
                             <div class="col mb-3">
                                 <label for="media" class="form-label">Media</label>
-                                <input class="form-control" type="file" wire:model="media">                                
+                                <input class="form-control" type="file" wire:model="media">
                                 <small class="text-danger">
                                     @error('media')
                                         {{ $message }}
@@ -195,9 +195,10 @@
                         <tr>
                             <td>{{ $menu_item->id }}</td>
                             <td>{{ $menu_item->name }}</td>
-                            <td>RS {{ floatval($menu_item->price) }}</td>
+                            <td>RS {{ $menu_item->price }}</td>
                             <td>
-                                <img src="{{ $menu_item->getFirstMediaUrl() }}" class="d-block rounded" height="100" alt="{{ $menu_item->name }}">
+                                <img src="{{ $menu_item->getFirstMediaUrl() }}" class="d-block rounded"
+                                    height="100" alt="{{ $menu_item->name }}">
                             </td>
                             <td>{{ $menu_item->inserting_person->name }}</td>
                             <td>
@@ -205,7 +206,8 @@
                                     data-bs-target="#updateModal" wire:click="editMenuItem({{ $menu_item->id }})"><i
                                         class='bx bxs-edit-alt'></i></button>
                                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal" wire:click="deleteMenuItem({{ $menu_item->id }})"><i
+                                    data-bs-target="#deleteModal"
+                                    wire:click="deleteMenuItem({{ $menu_item->id }})"><i
                                         class='bx bxs-trash'></i></button>
                             </td>
                         </tr>

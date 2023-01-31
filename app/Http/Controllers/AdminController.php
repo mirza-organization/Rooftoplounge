@@ -17,17 +17,12 @@ class AdminController extends Controller
     public function index()
     {
         $active = 'dashboard';
-        return view('admin.index',compact('active'));
+        return view('admin.index', compact('active'));
     }
     public function employees()
     {
         $active = 'employees';
-        return view('admin.employees',compact('active'));
-    }
-    public function menu_items()
-    {
-        $active = 'menu';
-        return view('admin.menu-items',compact('active'));
+        return view('admin.employees', compact('active'));
     }
     public function profile()
     {

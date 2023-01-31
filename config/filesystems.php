@@ -38,7 +38,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => public_path('/uploads'),
-            'url' => asset('/uploads'),
+            'url' => (request()->getHttpHost()=='127.0.0.1:8000') ? 'http://localhost:8000/uploads':'https://rooftoplounge.co/uploads',
             'visibility' => 'public',
         ],
 
