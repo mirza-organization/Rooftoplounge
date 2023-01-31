@@ -67,7 +67,7 @@ class Employees extends Component
             $this->name = $employee->name;
             $this->email = $employee->email;
         } else {
-            return redirect()->to(route('admin.employees'))->with('error', 'Record Not Found.');
+            return redirect()->to(route('employees.index'))->with('error', 'Record Not Found.');
         }
     }
 

@@ -12,6 +12,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('employee.index');
+        $active = 'employees';
+        return view('admin.employees', compact('active'));
     }
 }
