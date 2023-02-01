@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Auth\AuthenticatedSessionController as AuthAuthenticatedSessionController;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
+use Carbon\Carbon;
 
 class EmployeeController extends Controller
 {
@@ -17,7 +21,21 @@ class EmployeeController extends Controller
     public function index()
     {
         $active = 'dashboard';
-        return view('employee.index', compact('active'));
+        $currentMonth = Carbon::now()->startOfMonth();
+        $mostSold = OrderItem::selectRaw('prod_id, count(*) as count')
+            ->groupBy('prod_id')
+            ->orderByDesc('count')->whereBetween('created_at', [$currentMonth, Carbon::now()])
+            ->first();
+        // $totalSelling = Order::where('user_id', Auth::user()->id)
+        //     ->whereBetween('created_at', [$currentMonth, Carbon::now()])
+        //     ->sum('total_bill');
+        $mostSoldProduct = Product::find($mostSold->prod_id);
+        return view('employee.index', compact('active', 'mostSoldProduct'));
+    }
+    public function orders()
+    {
+        $active = 'orders';
+        return view('employee.orders', compact('active'));
     }
     public function profile()
     {

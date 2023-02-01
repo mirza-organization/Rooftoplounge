@@ -80,7 +80,7 @@
                     </li>
 
                     <li class="menu-item @if ($active == 'orders') active @endif">
-                        <a href="" class="menu-link">
+                        <a href="{{ route('emp.orders') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cart"></i>
                             <div data-i18n="Analytics">Orders</div>
                         </a>
@@ -142,11 +142,11 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="javascript:void(0)">
-                                            <form method="POST" action="{{ route('logout') }}">
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault();document.getElementById('logout').submit();">
+                                            <form method="POST" id="logout" action="{{ route('logout') }}">
                                                 @csrf
                                                 <i class="bx bx-power-off me-2"></i>
-                                                <span class="align-middle" onclick="event.preventDefault();this.closest('form').submit();">
+                                                <span class="align-middle">
                                                     {{ __('Log Out') }}
                                                 </span>
                                             </form>

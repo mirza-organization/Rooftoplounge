@@ -15,6 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->float('total_bill');
             $table->foreignId('user_id')->comment('Order creating person')->references('id')->on('users');
             $table->timestamps();
         });
