@@ -22,9 +22,9 @@ class EmployeeController extends Controller
     {
         $active = 'dashboard';
         $currentMonth = Carbon::now()->startOfMonth();
-        $mostSold = OrderItem::selectRaw('prod_id, count(*) as count')
+        $mostSold = OrderItem::selectRaw('prod_id, sum(qty) as sum')
             ->groupBy('prod_id')
-            ->orderByDesc('count')->whereBetween('created_at', [$currentMonth, Carbon::now()])
+            ->orderByDesc('sum')->whereBetween('created_at', [$currentMonth, Carbon::now()])
             ->first();
         // $totalSelling = Order::where('user_id', Auth::user()->id)
         //     ->whereBetween('created_at', [$currentMonth, Carbon::now()])
