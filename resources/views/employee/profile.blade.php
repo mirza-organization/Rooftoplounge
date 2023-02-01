@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('employee.layout.main')
 @push('title')
     My Profile
 @endpush
@@ -13,7 +13,7 @@
                 <h5 class="card-header">Profile Details</h5>
                 <!-- Account -->
                 <div class="card-body">
-                    <form id="formAccountSettings" action="{{ route('admin.update') }}" method="POST">
+                    <form id="formAccountSettings" action="{{ route('emp.update') }}" method="POST">
                         @csrf
                         <input type="hidden" name="id" value="{{ $user->id }}">
                         <div class="row">
@@ -38,7 +38,7 @@
             <div class="card">
                 <h5 class="card-header">Change Password</h5>
                 <div class="card-body">
-                    <form id="formAccountSettings" action="{{ route('admin.update_password') }}" method="POST">
+                    <form id="formAccountSettings" action="{{ route('emp.update_password') }}" method="POST">
                         @csrf
                         <input type="hidden" name="id" value="{{ $user->id }}">
                         <div class="row">

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     Route::middleware('admin_guard')->prefix('admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
-        Route::resource('/employees', EmployeeController::class);        
+        Route::get('/employees', [AdminController::class, 'employees'])->name('admin.employees');
         Route::resource('/menu-items', ProductController::class);
         Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
         Route::post('/update-admin', [AdminController::class, 'update_admin'])->name('admin.update');
@@ -27,7 +27,10 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('emp_guard')->prefix('emp')->group(function () {
-        Route::get('/dashboard', [EmployeeController::class, 'index']);
+        Route::get('/dashboard', [EmployeeController::class, 'index'])->name('emp.index');
+        Route::get('/profile', [EmployeeController::class, 'profile'])->name('emp.profile');
+        Route::post('/update-employee', [EmployeeController::class, 'update_emp'])->name('emp.update');
+        Route::post('/update-password', [EmployeeController::class, 'update_emp_password'])->name('emp.update_password');
     });
 });
 

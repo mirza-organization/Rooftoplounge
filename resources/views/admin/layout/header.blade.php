@@ -87,7 +87,7 @@
                     </li>
 
                     <li class="menu-item @if ($active == 'employees') active @endif">
-                        <a href="{{ route('employees.index') }}" class="menu-link">
+                        <a href="{{ route('admin.employees') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-group"></i>
                             <div data-i18n="Analytics">Employees</div>
                         </a>
@@ -138,7 +138,7 @@
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    <small class="text-muted">{{ Auth::user()->role_id }}</small>
                                                 </div>
                                             </div>
                                         </a>

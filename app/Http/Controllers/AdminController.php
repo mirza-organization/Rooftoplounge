@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController as AuthAuthenticatedSessionController;
 
 class AdminController extends Controller
 {
@@ -36,10 +36,11 @@ class AdminController extends Controller
             'name' => 'required',
         ]);
         $update = User::where('id', '=', $req->id)->update([
-            'first_name' => $req->name,
+            'name' => $req->name,
         ]);
         if ($update) {
-            return redirect(route('logout'))->with('success', 'Profile Updated.');
+            $logout = new AuthAuthenticatedSessionController();
+            return $logout->destroy($req);
         } else {
             return redirect()->back()->with('error', 'Try Again');
         }
@@ -55,7 +56,8 @@ class AdminController extends Controller
             'password' => Hash::make($req->password)
         ]);
         if ($update) {
-            return redirect(route('logout'))->with('success', 'Password Changed.');
+            $logout = new AuthAuthenticatedSessionController();
+            return $logout->destroy($req);
         } else {
             return redirect()->back()->with('error', 'Try Again');
         }
