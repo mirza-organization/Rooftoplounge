@@ -29,7 +29,11 @@ class AdminController extends Controller
         $totalSelling = Order::whereBetween('created_at', [$currentMonth, Carbon::now()])
             ->sum('total_bill');
         $totalSale = Order::sum('total_bill');
-        $mostSoldProduct = Product::find($mostSold->prod_id);
+        if (!is_null($mostSold)) {
+            $mostSoldProduct = Product::find($mostSold->prod_id);
+        } else {
+            $mostSoldProduct = null;
+        }
         return view('admin.index', compact('active','mostSoldProduct','totalSelling','totalSale'));
     }
     public function employees()
