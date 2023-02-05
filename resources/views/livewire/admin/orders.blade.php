@@ -170,29 +170,31 @@
                             <b>Order No # {{ $order_detail->id }}</b>
                             <b>Time : {{ $order_detail->created_at->diffForHumans() }}</b>
                         </div>
-                        <table class="table table-hover mb-4">
-                            <thead>
-                                <tr>
-                                    <th>Order item</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Sub Total</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-border-bottom-0">
-                                @foreach ($order_detail->order_items as $item)
-                                    @php
-                                        $single_item = \App\Models\Product::where('id', '=', $item->prod_id)->first();                                        
-                                    @endphp
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-4">
+                                <thead>
                                     <tr>
-                                        <td>{{ $single_item->name }}</td>
-                                        <td>Rs. {{ $single_item->price }}</td>
-                                        <td>{{ $item->qty }}</td>
-                                        <td>Rs. {{ $single_item->price * $item->qty }}</td>
+                                        <th>Order item</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Sub Total</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    @foreach ($order_detail->order_items as $item)
+                                        @php
+                                            $single_item = \App\Models\Product::where('id', '=', $item->prod_id)->first();
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $single_item->name }}</td>
+                                            <td>Rs. {{ $single_item->price }}</td>
+                                            <td>{{ $item->qty }}</td>
+                                            <td>Rs. {{ $single_item->price * $item->qty }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>                            
                         <div class="text-end mb-4">
                             <b>Grand Total : Rs. {{ $order_detail->total_bill }}
                         </div>
