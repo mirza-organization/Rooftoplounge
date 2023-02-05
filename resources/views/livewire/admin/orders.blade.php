@@ -170,7 +170,7 @@
                             <b>Order No # {{ $order_detail->id }}</b>
                             <b>Time : {{ $order_detail->created_at->diffForHumans() }}</b>
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive ">
                             <table class="table table-hover mb-4">
                                 <thead>
                                     <tr>
