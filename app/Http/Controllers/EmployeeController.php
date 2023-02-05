@@ -29,6 +29,7 @@ class EmployeeController extends Controller
         // $totalSelling = Order::where('user_id', Auth::user()->id)
         //     ->whereBetween('created_at', [$currentMonth, Carbon::now()])
         //     ->sum('total_bill');
+        //
         $mostSoldProduct = Product::find($mostSold->prod_id);
         return view('employee.index', compact('active', 'mostSoldProduct'));
     }
