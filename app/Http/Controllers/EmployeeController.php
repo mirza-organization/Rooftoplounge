@@ -33,7 +33,7 @@ class EmployeeController extends Controller
         if (!is_null($mostSold)) {
             $mostSoldProduct = Product::find($mostSold->prod_id);
         } else {
-            $mostSoldProduct = "N/A";
+            $mostSoldProduct = null;
         }
         return view('employee.index', compact('active', 'mostSoldProduct'));
     }

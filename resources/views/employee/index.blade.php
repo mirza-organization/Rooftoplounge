@@ -15,7 +15,13 @@
                         </div>
                         <div>
                             <span class="fw-semibold d-block mb-1">Popular in people</span>
-                            <h3 class="card-title mb-2">{{ $mostSoldProduct->name }}</h3>
+                            <h3 class="card-title mb-2">
+                                @if (!is_null($mostSoldProduct))
+                                    {{ $mostSoldProduct->name }}
+                                @else
+                                    N/A
+                                @endif
+                            </h3>
                         </div>
                     </div>
                 </div>
