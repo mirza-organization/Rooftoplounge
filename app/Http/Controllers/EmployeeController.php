@@ -30,7 +30,11 @@ class EmployeeController extends Controller
         //     ->whereBetween('created_at', [$currentMonth, Carbon::now()])
         //     ->sum('total_bill');
         //
-        $mostSoldProduct = Product::find($mostSold->prod_id);
+        if (!is_null($mostSold)) {
+            $mostSoldProduct = Product::find($mostSold->prod_id);
+        } else {
+            $mostSoldProduct = "N/A";
+        }
         return view('employee.index', compact('active', 'mostSoldProduct'));
     }
     public function orders()
