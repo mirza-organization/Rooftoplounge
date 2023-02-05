@@ -1,17 +1,42 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    You're logged in as a Employee!
+@extends('employee.layout.main')
+@push('head')
+@endpush
+@section('content')
+    <!-- Content -->
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4">Dashboard</h4>
+        <!-- Basic Bootstrap Table -->
+        <div class="row">
+            <div class="card col-lg-3 col-md-3 order-1 m-2">
+                <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                        <div class="avatar flex-shrink-0">
+                            <i class='bx bx-lg bx-bar-chart-alt-2 text-success'></i>
+                        </div>
+                        <div>
+                            <span class="fw-semibold d-block mb-1">Popular in people</span>
+                            <h3 class="card-title mb-2">{{ $mostSoldProduct->name }}</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
+            {{-- <div class="card col-lg-3 col-md-3 order-1 m-2">
+                <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                        <div class="avatar flex-shrink-0">
+                            <i class='bx bx-lg bx-dollar-circle text-success'></i>
+                        </div>
+                        <div>
+                            <span class="fw-semibold d-block mb-1">Sale of this month</span>
+                            <h3 class="card-title mb-2">Rs.{{ $totalSelling }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
         </div>
+        <!--/ Basic Bootstrap Table -->
     </div>
-</x-app-layout>
+    <!-- / Content -->
+@endsection
+@push('footer')
+@endpush

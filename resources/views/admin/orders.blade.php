@@ -3,7 +3,7 @@
 @endpush
 @section('content')
     <!-- Content -->
-    <livewire:admin.employees/>
+    <livewire:admin.orders/>
     <!-- / Content -->
 @endsection
 @push('footer')

@@ -6,7 +6,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController as AuthAuthenticatedSessionController;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -17,17 +21,26 @@ class AdminController extends Controller
     public function index()
     {
         $active = 'dashboard';
-        return view('admin.index',compact('active'));
+        $currentMonth = Carbon::now()->startOfMonth();
+        $mostSold = OrderItem::selectRaw('prod_id ,sum(qty) as sum')
+            ->groupBy('prod_id')
+            ->orderByDesc('sum')->whereBetween('created_at', [$currentMonth, Carbon::now()])
+            ->first();
+        $totalSelling = Order::whereBetween('created_at', [$currentMonth, Carbon::now()])
+            ->sum('total_bill');
+        $totalSale = Order::sum('total_bill');
+        $mostSoldProduct = Product::find($mostSold->prod_id);
+        return view('admin.index', compact('active','mostSoldProduct','totalSelling','totalSale'));
     }
     public function employees()
     {
         $active = 'employees';
-        return view('admin.employees',compact('active'));
+        return view('admin.employees', compact('active'));
     }
-    public function menu_items()
+    public function orders()
     {
-        $active = 'menu';
-        return view('admin.menu-items',compact('active'));
+        $active = 'orders';
+        return view('admin.orders', compact('active'));
     }
     public function profile()
     {
@@ -41,10 +54,11 @@ class AdminController extends Controller
             'name' => 'required',
         ]);
         $update = User::where('id', '=', $req->id)->update([
-            'first_name' => $req->name,
+            'name' => $req->name,
         ]);
         if ($update) {
-            return redirect(route('logout'))->with('success', 'Profile Updated.');
+            $logout = new AuthAuthenticatedSessionController();
+            return $logout->destroy($req);
         } else {
             return redirect()->back()->with('error', 'Try Again');
         }
@@ -60,7 +74,8 @@ class AdminController extends Controller
             'password' => Hash::make($req->password)
         ]);
         if ($update) {
-            return redirect(route('logout'))->with('success', 'Password Changed.');
+            $logout = new AuthAuthenticatedSessionController();
+            return $logout->destroy($req);
         } else {
             return redirect()->back()->with('error', 'Try Again');
         }

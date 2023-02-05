@@ -17,7 +17,7 @@ class AdminVerifier
      */
     public function handle(Request $request, Closure $next)
     {   /* 1 == Admin */
-        if(Auth::user()->role_id != 1) abort(404);
+        if(Auth::user()->role_id != 'admin') abort(404);
         return $next($request);
     }
 }

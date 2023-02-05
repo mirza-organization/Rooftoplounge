@@ -37,8 +37,8 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'root' => public_path('/uploads'),
+            'url' => (isset($_SERVER["SERVER_NAME"]) && $_SERVER["SERVER_NAME"]=='127.0.0.1') ? 'http://localhost:8000/uploads':'https://rooftoplounge.co/uploads',
             'visibility' => 'public',
         ],
 

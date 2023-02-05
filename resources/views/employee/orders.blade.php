@@ -1,9 +1,9 @@
-@extends('admin.layout.main')
+@extends('employee.layout.main')
 @push('head')
 @endpush
 @section('content')
     <!-- Content -->
-    <livewire:admin.employees/>
+    <livewire:employee.orders/>
     <!-- / Content -->
 @endsection
 @push('footer')

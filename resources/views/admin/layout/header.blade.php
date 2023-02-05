@@ -73,14 +73,14 @@
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
                     <li class="menu-item @if ($active == 'dashboard') active @endif">
-                        <a href="" class="menu-link">
+                        <a href="{{ route('admin.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
                     </li>
 
                     <li class="menu-item @if ($active == 'menu') active @endif">
-                        <a href="{{ route('admin.menu-items') }}" class="menu-link">
+                        <a href="{{ route('menu-items.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-food-menu"></i>
                             <div data-i18n="Analytics">Menu Items</div>
                         </a>
@@ -94,7 +94,7 @@
                     </li>
 
                     <li class="menu-item @if ($active == 'orders') active @endif">
-                        <a href="" class="menu-link">
+                        <a href="{{ route('admin.orders') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cart"></i>
                             <div data-i18n="Analytics">Orders</div>
                         </a>
@@ -138,7 +138,7 @@
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    <small class="text-muted">{{ Auth::user()->role_id }}</small>
                                                 </div>
                                             </div>
                                         </a>
@@ -155,16 +155,16 @@
                                     <li>
                                         <div class="dropdown-divider"></div>
                                     </li>
-                                    <li>                                
-                                        <form class="dropdown-item" method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <i class="bx bx-power-off me-2 text-muted"></i>
-                                            <a class="align-middle text-muted" href="javascript:void(0)"
-                                                onclick="event.preventDefault();
-                                                                this.closest('form').submit();">
-                                                {{ __('Log Out') }}
-                                            </a>
-                                        </form>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault();document.getElementById('logout').submit();">
+                                            <form method="POST" id="logout" action="{{ route('logout') }}">
+                                                @csrf
+                                                <i class="bx bx-power-off me-2"></i>
+                                                <span class="align-middle">
+                                                    {{ __('Log Out') }}
+                                                </span>
+                                            </form>
+                                        </a>
                                     </li>
                                 </ul>
                             </li>

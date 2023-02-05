@@ -36,7 +36,7 @@ class Employees extends Component
             'name' => $this->name,
             'email' => $this->email,
             'password' => Hash::make($this->password),
-            'role_id' => '2',
+            'role_id' => 'emp',
         ]);
         $this->resetInputs();
         $this->dispatchBrowserEvent('close-modal', ['id' => 'basicModal']);
@@ -67,7 +67,7 @@ class Employees extends Component
             $this->name = $employee->name;
             $this->email = $employee->email;
         } else {
-            return redirect()->to(route('admin.employees'))->with('error', 'Record Not Found.');
+            return redirect()->to(route('employees.index'))->with('error', 'Record Not Found.');
         }
     }
 
@@ -110,7 +110,7 @@ class Employees extends Component
 
     public function render()
     {
-        $employees = User::where('role_id', '=', '2')->paginate(10);
+        $employees = User::where('role_id', '=', 'emp')->orderBy('created_at','DESC')->paginate(10);
         return view('livewire.admin.employees', ['employees' => $employees]);
     }
 }
